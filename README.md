@@ -2,7 +2,7 @@ pydaminfo
 =======
 Python2.7対応。  
 国土交通省 川の防災情報(river.go.jp)からダムの情報（貯水率等）を取得するためのPythonモジュールです。  
-ダムbot(https://twitter.com/sameura_dam)で使用しているものと同じものです。
+ダムbot(https://twitter.com/sameura_dam )で使用しているものと同じものです。
 
 How to use
 -------
