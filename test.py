@@ -4,7 +4,7 @@
 import unittest
 import daminfo
 
-outerHtml = u'''<HTML>
+OUTER_HTML = u'''<HTML>
 <HEAD>
 <META http-equiv="Content-Type" content="text/html; charset=EUC-JP">
 <META http-equiv="Content-Style-Type" content="text/css">
@@ -19,7 +19,7 @@ outerHtml = u'''<HTML>
 </BODY>
 </HTML>'''
 
-csvContents = u'''リアルタイムダム諸量一覧表
+CSV_CONTENTS = u'''リアルタイムダム諸量一覧表
 水系名,吉野川
 河川名,吉野川
 観測所名,早明浦ダム（機構）
@@ -31,34 +31,34 @@ csvContents = u'''リアルタイムダム諸量一覧表
 2014/05/31,00:50,0.0, ,158020, ,9.94, ,22.50, ,0.0,-
 2014/05/31,01:00,0.0, ,158020, ,8.56, ,22.30, ,89.7, 
 2014/05/31,01:10,0.0, ,157970, ,8.46, ,23.80, ,0.0,-
-'''.replace('\n','\r\n')
+'''.replace('\n', '\r\n')
 
 class DamInfoTest(unittest.TestCase):
-	def setUp(self):
-		self.daminfo = daminfo.DamInfo('1368080700010')
+    def setUp(self):
+        self.daminfo = daminfo.DamInfo('1368080700010')
 
-	def test_getRealtimeUrl(self):
-		ru = 'http://www1.river.go.jp/cgi-bin/DspDamData.exe?ID=1368080700010&KIND=3&PAGE=0'
-		tu = self.daminfo._getRealtimeUrl()
-		self.assertEqual(tu, ru)
+    def test_get_realtime_url(self):
+        expected_val = 'http://www1.river.go.jp/cgi-bin/DspDamData.exe?ID=1368080700010&KIND=3&PAGE=0'
+        return_val = self.daminfo._get_realtime_url()
+        self.assertEqual(return_val, expected_val)
 
-	def test_getCsvUrl(self):
-		ru = 'http://www1.river.go.jp/dat/dload/download/5313680807000102014053117221.dat'
-		tu = self.daminfo._getCsvUrl(outerHtml)
-		self.assertEqual(tu, ru)
+    def test_get_csv_url(self):
+        expected_val = 'http://www1.river.go.jp/dat/dload/download/5313680807000102014053117221.dat'
+        return_val = self.daminfo._get_csv_url(OUTER_HTML)
+        self.assertEqual(return_val, expected_val)
 
-	def test_format_Csv(self):
-		ru = [['2014/05/31', '00:50', '0.0', ' ', '158020', ' ', '9.94', ' ', '22.50', ' ', '0.0', '-'], \
- 		      ['2014/05/31', '01:00', '0.0', ' ', '158020', ' ', '8.56', ' ', '22.30', ' ', '89.7', ' '], \
-		      ['2014/05/31', '01:10', '0.0', ' ', '157970', ' ', '8.46', ' ', '23.80', ' ', '0.0', '-']]
- 		tu = self.daminfo._formatCsv(csvContents)
- 		self.assertEqual(tu, ru)
+    def test_format_c(self):
+        expected_val = [['2014/05/31', '00:50', '0.0', ' ', '158020', ' ', '9.94', ' ', '22.50', ' ', '0.0', '-'], \
+                        ['2014/05/31', '01:00', '0.0', ' ', '158020', ' ', '8.56', ' ', '22.30', ' ', '89.7', ' '], \
+                        ['2014/05/31', '01:10', '0.0', ' ', '157970', ' ', '8.46', ' ', '23.80', ' ', '0.0', '-']]
+        return_val = self.daminfo._format_csv(CSV_CONTENTS)
+        self.assertEqual(return_val, expected_val)
 
- 	def test_getRecentPerOfStorage(self):
- 		ru = ('2014/05/31', '01:00', '89.7')
- 		self.daminfo.getRealtimeDaminfo = lambda: self.daminfo._formatCsv(csvContents)
- 		tu = self.daminfo.getRecentPerOfStorage()
- 		self.assertEqual(tu, ru)
+    def test_get_latest_storage(self):
+        expected_val = ('2014/05/31', '01:00', '89.7')
+        self.daminfo.get_realtime_daminfo = lambda: self.daminfo._format_csv(CSV_CONTENTS)
+        return_val = self.daminfo.get_latest_storage()
+        self.assertEqual(return_val, expected_val)
 
 if __name__ == '__main__':
-	unittest.main()
+    unittest.main()
