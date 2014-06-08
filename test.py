@@ -2,6 +2,8 @@
 # coding: utf-8
 
 import unittest
+from mock import Mock, patch
+
 import daminfo
 
 OUTER_HTML = u'''<HTML>
@@ -47,16 +49,17 @@ class DamInfoTest(unittest.TestCase):
         return_val = self.daminfo._get_csv_url(OUTER_HTML)
         self.assertEqual(return_val, expected_val)
 
-    def test_format_c(self):
+    def test_format_csv(self):
         expected_val = [['2014/05/31', '00:50', '0.0', ' ', '158020', ' ', '9.94', ' ', '22.50', ' ', '0.0', '-'], \
                         ['2014/05/31', '01:00', '0.0', ' ', '158020', ' ', '8.56', ' ', '22.30', ' ', '89.7', ' '], \
                         ['2014/05/31', '01:10', '0.0', ' ', '157970', ' ', '8.46', ' ', '23.80', ' ', '0.0', '-']]
         return_val = self.daminfo._format_csv(CSV_CONTENTS)
         self.assertEqual(return_val, expected_val)
 
-    def test_get_latest_storage(self):
+    @patch('daminfo.DamInfo.get_realtime_daminfo')
+    def test_get_latest_storage(self, m):
+        m.return_value =  self.daminfo._format_csv(CSV_CONTENTS)
         expected_val = ('2014/05/31', '01:00', '89.7')
-        self.daminfo.get_realtime_daminfo = lambda: self.daminfo._format_csv(CSV_CONTENTS)
         return_val = self.daminfo.get_latest_storage()
         self.assertEqual(return_val, expected_val)
 
