@@ -24,7 +24,7 @@ class DamInfo(object):
                 percent = line[10]
                 break
         else:
-            raise "Can't find PerOfStorage"
+            raise "Could not find storage information"
         return date, time, percent
 
     def get_realtime_daminfo(self):
@@ -69,4 +69,4 @@ class DamInfo(object):
             url = self.BASE_URL + mached.group(1)
             return url
         else:
-            raise "Can't find csv url"
+            raise "Could not find csv url"
