@@ -11,8 +11,9 @@ class DamInfo(object):
     USER_AGENT = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko'
     REGXP_CSV_URL = r'<A href="(/dat/dload/download/\d+\.dat)" target="_blank">'
 
-    def __init__(self, damid):
+    def __init__(self, damid, maximum_storage=0):
         self.damid = damid
+        self.maximum_storage = maximum_storage
 
     def get_latest_storage(self):
         info = self.get_realtime_daminfo()
@@ -25,6 +26,13 @@ class DamInfo(object):
                 break
         else:
             raise "Could not find storage information"
+        return date, time, percent
+
+    def calc_latest_storage(self):
+        info = self.get_realtime_daminfo()
+        date = info[-1][0]
+        time = info[-1][1]
+        percent = str(round(float(info[-1][4]) / self.maximum_storage * 100, 1))
         return date, time, percent
 
     def get_realtime_daminfo(self):
