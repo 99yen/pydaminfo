@@ -32,7 +32,7 @@ class DamInfo(object):
         info = self.get_realtime_daminfo()
         date = info[-1][0]
         time = info[-1][1]
-        percent = str(round(float(info[-1][4]) / self.maximum_storage * 100, 1))
+        percent = "{:.1f}".format(float(info[-1][4]) / self.maximum_storage * 100)
         return date, time, percent
 
     def get_realtime_daminfo(self):
