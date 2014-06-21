@@ -63,5 +63,13 @@ class DamInfoTest(unittest.TestCase):
         return_val = self.daminfo.get_latest_storage()
         self.assertEqual(return_val, expected_val)
 
+    @patch('daminfo.DamInfo.get_realtime_daminfo')
+    def test_calc_latest_storage(self, m):
+        m.return_value =  self.daminfo._format_csv(CSV_CONTENTS)
+        expected_val = ('2014/05/31', '01:10', '91.8')
+        self.daminfo.maximum_storage = 172000
+        return_val = self.daminfo.calc_latest_storage()
+        self.assertEqual(return_val, expected_val)
+
 if __name__ == '__main__':
     unittest.main()
