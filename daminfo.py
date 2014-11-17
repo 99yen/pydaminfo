@@ -25,7 +25,7 @@ class DamInfo(object):
                 percent = line[10]
                 break
         else:
-            raise "Could not find storage information"
+            raise Exception("Could not find storage information")
         return date, time, percent
 
     def calc_latest_storage(self):
@@ -77,4 +77,4 @@ class DamInfo(object):
             url = self.BASE_URL + mached.group(1)
             return url
         else:
-            raise "Could not find csv url"
+            raise Exception("Could not find csv url")
