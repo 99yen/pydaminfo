@@ -19,7 +19,7 @@ class DamInfo(object):
         info = self.get_realtime_daminfo()
         for line in reversed(info):
             attribute = line[11]
-            if attribute != '-':
+            if not attribute.strip():
                 date = line[0]
                 time = line[1]
                 percent = line[10]
